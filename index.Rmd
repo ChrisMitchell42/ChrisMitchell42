@@ -2,4 +2,4 @@
 title: "My R site"
 ---
 
-Hello world! this won't work either
+Hello world! It works!
