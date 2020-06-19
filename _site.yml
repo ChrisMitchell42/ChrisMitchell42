@@ -1,0 +1,6 @@
+name: "my-r-site"
+navbar:
+  title: "My R site"
+  left:
+    - text: "Home"
+      href: index.html
