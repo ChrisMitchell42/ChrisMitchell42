@@ -1,5 +1,4 @@
 ---
-title: "My R site"
 layout: default
 ---
 
