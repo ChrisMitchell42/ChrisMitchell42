@@ -126,7 +126,7 @@ ggtree(tree) +
 ```
 
 Pretty good. But there are other options. Again it's a matter of personal preference. You may prefer to overlay a translucent rectangle over your clade of interest.
-```{r}
+```{r, echo=TRUE}
 ggtree(tree) + 
   geom_tiplab() + 
   geom_hilight(node=17, fill="gold")

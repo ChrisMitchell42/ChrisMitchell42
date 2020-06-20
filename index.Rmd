@@ -1,5 +1,6 @@
 ---
 title: "My R site"
+layout: default
 ---
 
 Hello world! It works!
