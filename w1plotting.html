@@ -318,17 +318,17 @@ library(ggimage)</code></pre>
 <pre class="r"><code>tree &lt;- read.tree(&quot;tree_newick.nwk&quot;)</code></pre>
 <p>If we take a look at the structure of our tree object using the <strong>str</strong> function. The tree is stored as an object of class <strong>phylo</strong>.</p>
 <pre class="r"><code>str(tree)</code></pre>
-<pre><code>## List of 4
-##  $ edge       : int [1:24, 1:2] 14 15 16 17 18 19 20 20 19 18 ...
-##  $ edge.length: num [1:24] 4 13 10 3 8 6 4 4 5 6 ...
-##  $ Nnode      : int 12
-##  $ tip.label  : chr [1:13] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; ...
-##  - attr(*, &quot;class&quot;)= chr &quot;phylo&quot;
-##  - attr(*, &quot;order&quot;)= chr &quot;cladewise&quot;</code></pre>
+<pre><code>List of 4
+ $ edge       : int [1:24, 1:2] 14 15 16 17 18 19 20 20 19 18 ...
+ $ edge.length: num [1:24] 4 13 10 3 8 6 4 4 5 6 ...
+ $ Nnode      : int 12
+ $ tip.label  : chr [1:13] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; ...
+ - attr(*, &quot;class&quot;)= chr &quot;phylo&quot;
+ - attr(*, &quot;order&quot;)= chr &quot;cladewise&quot;</code></pre>
 <p>We can see a list of 4 elements of the tree object. The first (<strong>edge</strong>) contains the edges (also known as branches) of the phylogeny and their labels. The next is <strong>edge.length</strong> which contains the lengths of the branches. <strong>Nnode</strong> specifies the number of nodes and finally <strong>tip.label</strong> contains the labels of the tips. In this case, we just have letters for tip labels.</p>
 <p>Things become clearer when we plot the tree. We can do this with the <strong>plot</strong> function in base R.</p>
 <pre class="r"><code>plot(tree)</code></pre>
-<p><img src="w1plotting_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>This plot is fine for a quick check to make sure the tree looks as we expected it to. Let’s look at making a more attractive plot with ggtree.</p>
 </div>
 <div id="ggtree" class="section level1">
@@ -336,41 +336,41 @@ library(ggimage)</code></pre>
 <p>The syntax we’ll be using here is a little different that what you may be used to so don’t get intimidated. <strong>ggtree</strong> uses the same syntax as a package called <strong>ggplot2</strong>. This works by creating layers (known as <strong>geoms</strong>) and plotting them over each other.</p>
 <p>We’ll start by using ggtree to plot our tree. This is the base layer of the plot.</p>
 <pre class="r"><code>ggtree(tree)</code></pre>
-<p><img src="w1plotting_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>You may want to plot the same tree as a <strong>cladogram</strong>. To do this, disable branch lengths.</p>
 <pre class="r"><code>ggtree(tree, branch.length = &quot;none&quot;)</code></pre>
-<p><img src="w1plotting_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>There are many other options we can include to customise our tree.</p>
 <pre class="r"><code>ggtree(tree, 
        branch.length=&quot;none&quot;, 
        color=&quot;blue&quot;, 
        size=2, 
        linetype=3)</code></pre>
-<p><img src="w1plotting_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="geoms" class="section level2">
 <h2>Geoms</h2>
 <p>Geoms are new layers to plot on or alongside your tree. Here I’m creating the plot as an object in R. You should see “p” appear in your environment but no plot will appear.</p>
 <pre class="r"><code>p &lt;- ggtree(tree)</code></pre>
 <p>Now let’s plot it whilst adding new layers. Note that the hash denotes text not to be interpreted by R. This is a great way to annotate your code so that you can recall what it does!</p>
 <pre class="r"><code>p + geom_nodepoint() #Add node points</code></pre>
-<p><img src="w1plotting_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>p + geom_tippoint() # add tip points</code></pre>
-<p><img src="w1plotting_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>p + geom_tiplab() # Label the tips</code></pre>
-<p><img src="w1plotting_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>These geoms can be combined as you see fit. This gives you a lot of flexibility in how you plot your trees.</p>
 <pre class="r"><code>p + 
   geom_tiplab(offset = 2, color = &quot;purple&quot;) +
   geom_nodepoint(color = &quot;blue&quot;, size = 2) +
   geom_tippoint(color = &quot;red&quot;, size = 4) +
   ggtitle(&quot;A phylogeny of letters. For some reason...&quot;)</code></pre>
-<p><img src="w1plotting_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="labelling-clades" class="section level2">
 <h2>Labelling clades</h2>
 <p>To label clades, we need to be able to identify the node of the most recent common ancestor. The function <strong>MRCA</strong> tells us that the common ancestor of C and E is node 17.</p>
 <pre class="r"><code>MRCA(tree, tip = c(&quot;C&quot;, &quot;E&quot;))</code></pre>
-<pre><code>## [1] 17</code></pre>
+<pre><code>[1] 17</code></pre>
 <p>Let’s use a new geom to label the clade.</p>
 <pre class="r"><code>ggtree(tree) + 
   geom_tiplab() + 
@@ -378,12 +378,108 @@ library(ggimage)</code></pre>
                   label=&quot;A clade&quot;, 
                   color=&quot;red2&quot;, 
                   offset=1)</code></pre>
-<p><img src="w1plotting_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Pretty good. But there are other options. Again it’s a matter of personal preference. You may prefer to overlay a translucent rectangle over your clade of interest.</p>
 <pre class="r"><code>ggtree(tree) + 
   geom_tiplab() + 
   geom_hilight(node=17, fill=&quot;gold&quot;)</code></pre>
-<p><img src="w1plotting_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="example-phylogeny" class="section level1">
+<h1>Example Phylogeny</h1>
+<p>Let’s now have a look at how we can include images on our plots. Using images is a great way to annotate a phylogeny. Here’s the kind of thing I mean.</p>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>This phylogeny is annotated in a number of useful ways. The tip labels are the most common type you probably recognise and in this case, describe cephalopod families. The superorders (octopodiformes and decapodiformes) are highlighted by gold and red rectangles as well as a bar across the tips.</p>
+<p>The most interesting thing for our purposes are the silhouettes at the root of each superorder. The octopodiformes have an octopus and the decapodiformes have a squid as example taxa from within the superorder.</p>
+<div id="phylopic" class="section level2">
+<h2>Phylopic</h2>
+<p>The silhouettes I used for that plot are from a website (<a href="http://phylopic.org/" class="uri">http://phylopic.org/</a>). Phylopic provides open source biological silhouettes that are free to use. We’re now going to look at how to do this.</p>
+<p>Let’s start with loading an example tree. This one is a primate tree courtesy of Randi Griffin. You’ll notice that I’m loading this tree using a url. This is because I’m loading a file directly from GitHub, a sort of social network of coding and the host of this site! Randi (and many other coders) make some of the things they produce freely available through GitHub. This can be data, files or code.</p>
+<pre class="r"><code>primates &lt;- read.nexus(&quot;https://raw.githubusercontent.com/rgriff23/Dissertation/master/Chapter_2/data/tree.nex&quot;)</code></pre>
+<p>Let’s plot the new tree first.</p>
+<pre class="r"><code>p1 &lt;- ggtree(primates)
+p1</code></pre>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Let’s use what we know about ggtree to customise this plot into something more useful. In particular, this plot is quite useful because it tells us the numbers of each node and we will need that later on.</p>
+<pre class="r"><code>p2 &lt;- ggtree(primates) +
+  xlim(0,90) + 
+  geom_tiplab(size=1.5) +
+  geom_label2(aes(subset=!isTip, label=node), size=2, color=&quot;darkred&quot;, alpha=0.5)
+p2</code></pre>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Let’s label the 6 primate superfamilies.</p>
+<pre class="r"><code>p3 &lt;- ggtree(primates) +
+  xlim(0,100) +
+  geom_tiplab(size=1.5, offset=0.5) +
+  geom_hilight(node=124, fill=&quot;steelblue&quot;, alpha=0.5) +
+  geom_hilight(node=113, fill=&quot;darkgreen&quot;, alpha=0.5) +
+  geom_hilight(node=110, fill=&quot;gray&quot;, alpha=0.5) +
+  geom_hilight(node=96, fill=&quot;pink&quot;, alpha=0.5) +
+  geom_hilight(node=89, fill=&quot;beige&quot;, alpha=0.5) +
+  geom_hilight(node=70, fill=&quot;yellow&quot;, alpha=0.5) 
+p3</code></pre>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>So far so good. Let’s add on bars like I did for the cephalopod version. This time, I’ll add the new details to the object p3 to save some typing.</p>
+<pre class="r"><code>p4 &lt;- p3 +
+  geom_cladelabel(124, &quot;Galagoidea&quot;, offset=15, barsize=2, angle=90,
+                  offset.text=1.5, hjust=0.5, fontsize=3) + 
+  geom_cladelabel(113, &quot;Lemuroidea&quot;, offset=15, barsize=2, angle=90,
+                  offset.text=1.5, hjust=0.5, fontsize=3) +
+  geom_cladelabel(110, &quot;Tarsioidea&quot;, offset=15, barsize=2, angle=75,
+                  offset.text=2.5, hjust=0.2, fontsize=2) +
+  geom_cladelabel(96, &quot;Ceboidea&quot;, offset=15, barsize=2, angle=90,
+                  offset.text=1.5, hjust=0.5, fontsize=3) +
+  geom_cladelabel(89, &quot;Hominoidea&quot;, offset=15, barsize=2, angle=90,
+                  offset.text=1.5, hjust=0.5, fontsize=3) +
+  geom_cladelabel(70, &quot;Cercopithecoidea&quot;, offset=15, barsize=2, angle=90,
+                  offset.text=1.5, hjust=0.5, fontsize=3)
+p4</code></pre>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>There are some helpful details here, such as the fact that the label for Tarsioidea is off at an angle to avoid overlapping with other labels. The extra arguments in these options demonstrate how much control you can exercise over each geom.</p>
+<p>Now let’s get to adding images. the way to do this is a little awkward with ggtree but I think it’s worth the hassle. The first thing we have to do is gather the links for each image we want to use. I’ve chosen to do this by building a small data frame containing the urls to the images on phylopic, the names of the super families I want to label and the nodes I want to plot the images on.</p>
+<pre class="r"><code>images &lt;- data.frame(node = c(124,113,110,96,89,70),
+                     phylopic = c(&quot;http://phylopic.org/assets/images/submissions/
+                                  7fb9bea8-e758-4986-afb2-95a2c3bf983d.512.png&quot;,
+                                  &quot;http://phylopic.org/assets/images/submissions/
+                                  bac25f49-97a4-4aec-beb6-f542158ebd23.512.png&quot;,
+                                  &quot;http://phylopic.org/assets/images/submissions/
+                                  f598fb39-facf-43ea-a576-1861304b2fe4.512.png&quot;,
+                                  &quot;http://phylopic.org/assets/images/submissions/
+                                  aceb287d-84cf-46f1-868c-4797c4ac54a8.512.png&quot;,
+                                  &quot;http://phylopic.org/assets/images/submissions/
+                                  0174801d-15a6-4668-bfe0-4c421fbe51e8.512.png&quot;,
+                                  &quot;http://phylopic.org/assets/images/submissions/
+                                  72f2f854-f3cd-4666-887c-35d5c256ab0f.512.png&quot;),
+                     species = c(&quot;Galagoidea&quot;,&quot;Lemuroidea&quot;,&quot;Tarsioidea&quot;,
+                                 &quot;Ceboidea&quot;,&quot;Hominoidea&quot;,&quot;Cercopithecoidea&quot;))</code></pre>
+<p>This is a way of plotting them all at once with all the code included to build the plot from scratch.</p>
+<pre class="r"><code>p5 &lt;- ggtree(primates) +
+  xlim(0,110) +
+  geom_tiplab(size=2, offset=0.5) +
+  geom_hilight(node=124, fill=&quot;steelblue&quot;, alpha=0.5) +
+  geom_hilight(node=113, fill=&quot;darkgreen&quot;, alpha=0.5) +
+  geom_hilight(node=110, fill=&quot;gray&quot;, alpha=0.5) +
+  geom_hilight(node=96, fill=&quot;pink&quot;, alpha=0.5) +
+  geom_hilight(node=89, fill=&quot;beige&quot;, alpha=0.5) +
+  geom_hilight(node=70, fill=&quot;yellow&quot;, alpha=0.5) +
+  geom_cladelabel(124, &quot;Galagoidea&quot;, offset=22, barsize=2, angle=90,
+                  offset.text=1.5, hjust=0.5, fontsize=5) + 
+  geom_cladelabel(113, &quot;Lemuroidea&quot;, offset=22, barsize=2, angle=90,
+                  offset.text=1.5, hjust=0.5, fontsize=5) +
+  geom_cladelabel(110, &quot;Tarsioidea&quot;, offset=22, barsize=2, angle=75,
+                  offset.text=2.5, hjust=0.2, fontsize=4) +
+  geom_cladelabel(96, &quot;Ceboidea&quot;, offset=22, barsize=2, angle=90,
+                  offset.text=1.5, hjust=0.5, fontsize=5) +
+  geom_cladelabel(89, &quot;Hominoidea&quot;, offset=22, barsize=2, angle=90,
+                  offset.text=1.5, hjust=0.5, fontsize=5) +
+  geom_cladelabel(70, &quot;Cercopithecoidea&quot;, offset=22, barsize=2, angle=90,
+                  offset.text=1.5, hjust=0.5, fontsize=5)
+
+p5 %&lt;+% images +
+  geom_nodelab(aes(image = phylopic), geom = &quot;image&quot;, 
+               size = .04, nudge_x = -4)</code></pre>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-27-1.png" width="864" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 
