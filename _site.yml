@@ -6,6 +6,8 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
+    - text: "Darts"
+      href: darts.html
 output:
   html_document:
     theme: paper
