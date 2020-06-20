@@ -12,7 +12,7 @@
 
 
 
-<title>My R site</title>
+<title>Workshop 1: Plotting Phylogenies</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -292,12 +292,96 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">My R site</h1>
+<h1 class="title toc-ignore">Workshop 1: Plotting Phylogenies</h1>
 
 </div>
 
 
-<p>Hello world! It works!</p>
+<div id="phylogenetics-in-r" class="section level1">
+<h1>Phylogenetics in R</h1>
+<p>From LIFE223, you know R as a powerful statistical tool. You will also be aware that it is an incredibly flexible tool for plotting data. In this workshop, we will be working with phylogenies in R and manipulating them to produce informative plots.</p>
+<div id="packages-used" class="section level2">
+<h2>Packages used</h2>
+<p>In this tutorial we’ll mostly be using a package called ggtree. To install it, we need another package called BiocManager.</p>
+<pre class="r"><code>install.packages(&quot;BiocManager&quot;)
+BiocManager::install(&quot;ggtree&quot;)
+library(ggtree)</code></pre>
+<p>We will also need to use phylobase, ggimage and it would help to have the tidyverse packages loaded since we’ll be using the syntax of ggplot2. If you get an error message, make sure the packages are installed first.</p>
+<pre class="r"><code>library(tidyverse)
+library(phylobase)
+library(ggimage)</code></pre>
+</div>
+</div>
+<div id="importing-your-tree" class="section level1">
+<h1>Importing your tree</h1>
+<p>Let’s start by importing a tree. Make sure your working directory is set to wherever you have saved the tree_newick file. If you run this line, you should see an object called “tree” appear in your global environment.</p>
+<pre class="r"><code>tree &lt;- read.tree(&quot;tree_newick.nwk&quot;)</code></pre>
+<p>If we take a look at the structure of our tree object using the <strong>str</strong> function. The tree is stored as an object of class <strong>phylo</strong>.</p>
+<pre class="r"><code>str(tree)</code></pre>
+<pre><code>## List of 4
+##  $ edge       : int [1:24, 1:2] 14 15 16 17 18 19 20 20 19 18 ...
+##  $ edge.length: num [1:24] 4 13 10 3 8 6 4 4 5 6 ...
+##  $ Nnode      : int 12
+##  $ tip.label  : chr [1:13] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; ...
+##  - attr(*, &quot;class&quot;)= chr &quot;phylo&quot;
+##  - attr(*, &quot;order&quot;)= chr &quot;cladewise&quot;</code></pre>
+<p>We can see a list of 4 elements of the tree object. The first (<strong>edge</strong>) contains the edges (also known as branches) of the phylogeny and their labels. The next is <strong>edge.length</strong> which contains the lengths of the branches. <strong>Nnode</strong> specifies the number of nodes and finally <strong>tip.label</strong> contains the labels of the tips. In this case, we just have letters for tip labels.</p>
+<p>Things become clearer when we plot the tree. We can do this with the <strong>plot</strong> function in base R.</p>
+<pre class="r"><code>plot(tree)</code></pre>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>This plot is fine for a quick check to make sure the tree looks as we expected it to. Let’s look at making a more attractive plot with ggtree.</p>
+</div>
+<div id="ggtree" class="section level1">
+<h1>ggtree</h1>
+<p>The syntax we’ll be using here is a little different that what you may be used to so don’t get intimidated. <strong>ggtree</strong> uses the same syntax as a package called <strong>ggplot2</strong>. This works by creating layers (known as <strong>geoms</strong>) and plotting them over each other.</p>
+<p>We’ll start by using ggtree to plot our tree. This is the base layer of the plot.</p>
+<pre class="r"><code>ggtree(tree)</code></pre>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>You may want to plot the same tree as a <strong>cladogram</strong>. To do this, disable branch lengths.</p>
+<pre class="r"><code>ggtree(tree, branch.length = &quot;none&quot;)</code></pre>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>There are many other options we can include to customise our tree.</p>
+<pre class="r"><code>ggtree(tree, 
+       branch.length=&quot;none&quot;, 
+       color=&quot;blue&quot;, 
+       size=2, 
+       linetype=3)</code></pre>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div id="geoms" class="section level2">
+<h2>Geoms</h2>
+<p>Geoms are new layers to plot on or alongside your tree. Here I’m creating the plot as an object in R. You should see “p” appear in your environment but no plot will appear.</p>
+<pre class="r"><code>p &lt;- ggtree(tree)</code></pre>
+<p>Now let’s plot it whilst adding new layers. Note that the hash denotes text not to be interpreted by R. This is a great way to annotate your code so that you can recall what it does!</p>
+<pre class="r"><code>p + geom_nodepoint() #Add node points</code></pre>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code>p + geom_tippoint() # add tip points</code></pre>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>p + geom_tiplab() # Label the tips</code></pre>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>These geoms can be combined as you see fit. This gives you a lot of flexibility in how you plot your trees.</p>
+<pre class="r"><code>p + 
+  geom_tiplab(offset = 2, color = &quot;purple&quot;) +
+  geom_nodepoint(color = &quot;blue&quot;, size = 2) +
+  geom_tippoint(color = &quot;red&quot;, size = 4) +
+  ggtitle(&quot;A phylogeny of letters. For some reason...&quot;)</code></pre>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div id="labelling-clades" class="section level2">
+<h2>Labelling clades</h2>
+<p>To label clades, we need to be able to identify the node of the most recent common ancestor. The function <strong>MRCA</strong> tells us that the common ancestor of C and E is node 17.</p>
+<pre class="r"><code>MRCA(tree, tip = c(&quot;C&quot;, &quot;E&quot;))</code></pre>
+<pre><code>## [1] 17</code></pre>
+<p>Let’s use a new geom to label the clade.</p>
+<pre class="r"><code>ggtree(tree) + 
+  geom_tiplab() + 
+  geom_cladelabel(node=17, 
+                  label=&quot;A clade&quot;, 
+                  color=&quot;red2&quot;, 
+                  offset=1)</code></pre>
+<p><img src="w1plotting_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>Pretty good. But there are other options. Again it’s a matter of personal preference. You may prefer to overlay a translucent rectangle over your clade of interest. <img src="w1plotting_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+</div>
 
 
 
